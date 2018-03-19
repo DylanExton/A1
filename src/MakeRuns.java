@@ -23,7 +23,7 @@ public class MakeRuns {
 
     public static void main(String[] args) {
         //Check if there are arguments in the right order and type
-        if(args.length != 2 || isStringInteger(args[0]) || Integer.parseInt(args[0]) < 1){
+        if(args.length != 2 || !isStringInteger(args[0]) || Integer.parseInt(args[0]) < 1){
             System.out.println("Usage: MakeRuns <int heapSize, filename file.txt>");
             return;
         }
@@ -38,7 +38,7 @@ public class MakeRuns {
 
         //Check if the file exists
         if(!file.exists()){
-            System.out.println(args[0] + " does not exist");
+            System.out.println(args[1] + " does not exist");
             return;
         }
 
@@ -46,10 +46,18 @@ public class MakeRuns {
         if(!(file.isFile() && file.canRead())){
             System.out.println(file.getName() + " cannot be read from");
         }
-        
+
         try{
+            //Create a new File Input stream to read the file
             FileInputStream input = new FileInputStream(file);
+            //Current character that is being read
             char current;
+            //Loop through till the end of the file
+            while(input.available() > 0){
+                current = (char) input.read();
+                System.out.println(current);
+            }
+
 
         }catch(IOException e){
             System.err.println(e.getMessage());
