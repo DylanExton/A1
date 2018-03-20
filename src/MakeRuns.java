@@ -54,8 +54,11 @@ public class MakeRuns {
             char current;
             //Loop through till the end of the file
             while(input.available() > 0){
-                current = (char) input.read();
-                System.out.println(current);
+                //Fill the array
+                for(int i = 0; i< arrayMax; i++){
+                    heap[i] =  String.valueOf(input.read());
+                }
+
             }
 
 
