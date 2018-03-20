@@ -3,6 +3,8 @@
 //Import the relevant packages from the IO package
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class MakeRuns {
@@ -19,6 +21,22 @@ public class MakeRuns {
         }
         //else return true
         return true;
+    }
+
+    //Outputs the root of the heap to the file
+    public static void outputRoot(String[] array, BufferedWriter bw){
+        try {
+            String toGo = array[0];
+            bw.write(toGo);
+            bw.newLine();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void heapSort(String[] array, int useSize){
+        
     }
 
     public static void main(String[] args) {
@@ -52,22 +70,23 @@ public class MakeRuns {
             FileInputStream input = new FileInputStream(file);
             //Current character that is being read
             char current;
-                //Fill the array
+            //Fill the array
                 for(int i = 0; i< arrayMax; i++){
                     if(input.available() > 0) {
                         current = (char) input.read();
                         heap[i] = Character.toString(current);
                     }
                 }
-            int a=0;
+            //Setup the file for output
+            BufferedWriter output = new BufferedWriter(new FileWriter("Runs.txt"));
+
+
+
+
+
         }
         catch(IOException e){
             System.err.println(e.getMessage());
         }
-
-
-
-
-
     }
 }
