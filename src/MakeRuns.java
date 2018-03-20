@@ -52,17 +52,16 @@ public class MakeRuns {
             FileInputStream input = new FileInputStream(file);
             //Current character that is being read
             char current;
-            //Loop through till the end of the file
-            while(input.available() > 0){
                 //Fill the array
                 for(int i = 0; i< arrayMax; i++){
-                    heap[i] =  String.valueOf(input.read());
+                    if(input.available() > 0) {
+                        current = (char) input.read();
+                        heap[i] = Character.toString(current);
+                    }
                 }
-
-            }
-
-
-        }catch(IOException e){
+            int a=0;
+        }
+        catch(IOException e){
             System.err.println(e.getMessage());
         }
 
