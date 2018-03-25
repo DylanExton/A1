@@ -19,6 +19,7 @@ public class MakeRuns {
         //Create the variables that will be used
         int arrayMax = Integer.parseInt(args[0]);
         int useableArray = arrayMax;
+        String lastOutput = "";
         //Creates an array the size of the heap
         String[] heap = new String[arrayMax];
         //Create a File object
@@ -46,11 +47,38 @@ public class MakeRuns {
                         current = (char) input.read();
                         heap[i] = Character.toString(current);
                     }
-                }
+                };
             //Setup the file for output
             BufferedWriter output = new BufferedWriter(new FileWriter("Runs.txt"));
+            //Initial heap sort to upheap the heap.
            initialHeapify(heap,useableArray);
-
+           lastOutput = heap[0];
+           outputRoot(heap,output);
+           replaceRoot(heap, input);
+           while(input.available() > 0){
+            while(useableArray > 0) {
+               //Heapify the heap
+               heapify(heap, useableArray, 0);
+               //Check if the root is greater or equal to the previous output
+               if (heap[0].compareTo(lastOutput) >= 0) {
+                   outputRoot(heap, output);
+                   if (input.available() == 0) {
+                       replaceRoot(heap, input);
+                   } else {
+                       useableArray = cutHeap(heap, useableArray);
+                   }
+               } else {
+                   useableArray = cutHeap(heap, useableArray);
+                   heapify(heap, useableArray, 0);
+               }
+            }
+           }
+           //Output the root
+            outputRoot(heap, output);
+           //Close the reader
+            input.close();
+           //Close the writer
+            output.close();
 
         }
         catch(IOException e){
@@ -128,16 +156,24 @@ public class MakeRuns {
 
     //Reduces the size of the heap by 1
     public static int cutHeap(String[] arr, int endIndex){
-        String top = arr[endIndex];
-        arr[endIndex] = arr[0];
+        String top = arr[endIndex-1];
+        arr[endIndex-1] = arr[0];
         arr[0] = top;
 
-        return endIndex;
+        return endIndex-1;
     }
 
     //Replaces the root of the heap once it has been output to the file
-    public static void replaceRoot(String[] arr, String toReplace){
-        arr[0] = toReplace;
+    public static void replaceRoot(String[] arr, FileInputStream i){
+        try {
+
+            char current = (char) i.read();
+            arr[0] = Character.toString(current);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
