@@ -50,7 +50,7 @@ public class MakeRuns {
                     }
                 };
             //Setup the file for output
-            BufferedWriter output = new BufferedWriter(new FileWriter("Runs.txt"));
+            BufferedWriter output = new BufferedWriter(new FileWriter(file.getName() + ".runs"));
             //Initial heap sort to upheap the heap.
            initialHeapify(heap,useableArray);
            //Set the last output to the root of the heap
@@ -88,9 +88,8 @@ public class MakeRuns {
                }
             }
             //When the useable heap size is 0, reset and reheap
-            runs += endOfRun(output);
+            runs += 1;
             lastOutput = "0";
-            output.newLine();
             useableArray = arrayMax;
             if(heap[0] != null)
             initialHeapify(heap,useableArray);
@@ -198,14 +197,5 @@ public class MakeRuns {
 
     }
 
-    //Adds the end-of-run characters into the file
-    public static int endOfRun(BufferedWriter bw){
-        try {
-            bw.write("/..../..../..../");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return 1;
-    }
 
 }
