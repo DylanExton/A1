@@ -20,6 +20,7 @@ public class MakeRuns {
         int arrayMax = Integer.parseInt(args[0]);
         int useableArray = arrayMax;
         String lastOutput = "";
+        int runs = 0;
         //Creates an array the size of the heap
         String[] heap = new String[arrayMax];
         //Create a File object
@@ -52,34 +53,55 @@ public class MakeRuns {
             BufferedWriter output = new BufferedWriter(new FileWriter("Runs.txt"));
             //Initial heap sort to upheap the heap.
            initialHeapify(heap,useableArray);
+           //Set the last output to the root of the heap
            lastOutput = heap[0];
+           //output the root of the heap
            outputRoot(heap,output);
+           //replace the root of the heap
            replaceRoot(heap, input);
+           //While there is still information in the file
            while(input.available() > 0){
+               //While the array is still useable
             while(useableArray > 0) {
                //Heapify the heap
                heapify(heap, useableArray, 0);
                //Check if the root is greater or equal to the previous output
-               if (heap[0].compareTo(lastOutput) >= 0) {
+               if (heap[0].compareTo(lastOutput) >= 0){
+                   //If it is, output the root to the end of the run
                    outputRoot(heap, output);
-                   if (input.available() == 0) {
+                   lastOutput = heap[0];
+                   //if there is still another character in the input file
+                   if (input.available() > 0) {
+                       //replace the root
                        replaceRoot(heap, input);
                    } else {
+                       //else set root to null then cut heap
+                       heap[0] = null;
                        useableArray = cutHeap(heap, useableArray);
                    }
-               } else {
+               }
+               //if the root is smaller than the last output
+               else {
+                   //cut the heap and reheap the remaining heap
                    useableArray = cutHeap(heap, useableArray);
                    heapify(heap, useableArray, 0);
                }
             }
+            //When the useable heap size is 0, reset and reheap
+            runs += endOfRun(output);
+            lastOutput = "0";
+            output.newLine();
+            useableArray = arrayMax;
+            if(heap[0] != null)
+            initialHeapify(heap,useableArray);
            }
-           //Output the root
-            outputRoot(heap, output);
            //Close the reader
             input.close();
            //Close the writer
             output.close();
-
+           //Send the number of runs to std error
+            System.out.println("Sorting Success!");
+            System.err.println("Number of Runs: " + runs);
         }
         catch(IOException e){
             System.err.println(e.getMessage());
@@ -174,6 +196,16 @@ public class MakeRuns {
             e.printStackTrace();
         }
 
+    }
+
+    //Adds the end-of-run characters into the file
+    public static int endOfRun(BufferedWriter bw){
+        try {
+            bw.write("/..../..../..../");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 
 }
