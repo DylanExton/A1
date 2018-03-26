@@ -18,9 +18,7 @@ public class MergeRuns {
         }
 
         //Create the variables that will be used
-        int arrayMax = Integer.parseInt(args[0]);
-        //Creates an array the size of the heap
-        String[] heap = new String[arrayMax];
+        int numFiles = Integer.parseInt(args[0]);
         //Create a File object
         File file = new File(args[1]);
 
@@ -33,6 +31,25 @@ public class MergeRuns {
         //Check that the file can be read from
         if(!(file.isFile() && file.canRead())){
             System.out.println(file.getName() + " cannot be read from");
+        }
+
+        try{
+            for (int i=1; i <= numFiles; i++ ){
+                String fileName = "tempFile" + i + ".txt";
+                if (new File(fileName).createNewFile()) {
+                    System.out.println("added " + fileName);
+                }
+                else {
+                    System.out.println("file already exists");
+                }
+
+            }
+
+            
+        }
+
+        catch(IOException e){
+            System.err.println(e.getMessage());
         }
     }
 
