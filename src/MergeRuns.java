@@ -10,24 +10,10 @@ import java.io.IOException;
 
 public class MergeRuns {
 
-    //To check if the integer that the user has input is actually an integer
-    public static boolean isStringInteger(String number){
-        //try to parse the integer
-        try{
-            Integer.parseInt(number);
-        }
-        //If it catches, is not an integer
-        catch(Exception e ){
-            return false;
-        }
-        //else return true
-        return true;
-    }
-
     public static void main(String[] args) {
         //Check if there are arguments in the right order and type
         if(args.length != 2 || !isStringInteger(args[0]) || Integer.parseInt(args[0]) < 1){
-            System.out.println("Usage: MakeRuns <int heapSize, filename file.txt>");
+            System.out.println("Usage: MergeRuns <int k, filename file.txt>");
             return;
         }
 
@@ -48,5 +34,19 @@ public class MergeRuns {
         if(!(file.isFile() && file.canRead())){
             System.out.println(file.getName() + " cannot be read from");
         }
+    }
+
+    //To check if the integer that the user has input is actually an integer
+    public static boolean isStringInteger(String number){
+        //try to parse the integer
+        try{
+            Integer.parseInt(number);
+        }
+        //If it catches, is not an integer
+        catch(Exception e ){
+            return false;
+        }
+        //else return true
+        return true;
     }
 }
