@@ -45,6 +45,9 @@ public class MergeRuns {
 
             }
 
+            //Re-sorting
+            BufferedWriter output = new BufferedWriter(new FileWriter("tempFile"+numFiles+".txt"));
+
             
         }
 
