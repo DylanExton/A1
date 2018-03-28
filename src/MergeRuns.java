@@ -1,11 +1,10 @@
 //Dylan Exton | 1284042 & Chris Johnson | 1280366
 
 //Import the relevant packages from the IO package
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class MergeRuns {
@@ -19,6 +18,7 @@ public class MergeRuns {
 
         //Create the variables that will be used
         int numFiles = Integer.parseInt(args[0]);
+        String line = null;
         //Create a File object
         File file = new File(args[1]);
 
@@ -45,7 +45,41 @@ public class MergeRuns {
 
             }
 
-            
+            //Create a new File Input stream to read the file
+            FileInputStream input = new FileInputStream(file);
+            //Current character that is being read
+            char current;
+            char previous = ' ';
+            //buffered writer
+            BufferedWriter bw = new BufferedWriter(new FileWriter("tempFile1.txt"));
+            //variable to count what file it is
+            int fileCount = 1;
+            //Read file and count number of runs
+            while(input.available() > 0) {
+                current = (char) input.read();
+                if (Character.toString(current).compareTo(Character.toString(previous)) < 0) {
+                    bw.flush();
+                    fileCount++;
+                    if(fileCount > numFiles - 1) {
+                        fileCount = 1;
+                    }
+                    bw.close();
+                    bw = new BufferedWriter(new FileWriter("tempFile" + fileCount + ".txt"));
+                    System.out.println("Different run");
+                    bw.append(current);
+                    previous = current;
+
+                }
+                else {
+                    System.out.println("Same run");
+                    bw.append(current);
+                    previous = current;
+                }
+
+            }
+            bw.close();
+            bw = new BufferedWriter(new FileWriter("tempFile1.txt"));
+            //removeTempFiles(numFiles);
         }
 
         catch(IOException e){
@@ -65,5 +99,16 @@ public class MergeRuns {
         }
         //else return true
         return true;
+    }
+
+    public static void removeTempFiles(int j) {
+        for (int i=0; i <= j; i++) {
+            try {
+                Files.deleteIfExists(Paths.get("tempFile" + i + ".txt"));
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
