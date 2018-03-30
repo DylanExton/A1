@@ -19,7 +19,7 @@ public class MakeRuns {
         //Create the variables that will be used
         int arrayMax = Integer.parseInt(args[0]);
         int useableArray = arrayMax;
-        String lastOutput = "";
+        String lastOutput;
         int runs = 0;
         //Creates an array the size of the heap
         String[] heap = new String[arrayMax];
@@ -63,23 +63,23 @@ public class MakeRuns {
            while(input.available() > 0){
                //While the array is still useable
             while(useableArray > 0) {
-               //Heapify the heap
-               heapify(heap, useableArray, 0);
-               //Check if the root is greater or equal to the previous output
-               if (heap[0].compareTo(lastOutput) >= 0){
-                   //If it is, output the root to the end of the run
-                   outputRoot(heap, output);
-                   lastOutput = heap[0];
-                   //if there is still another character in the input file
-                   if (input.available() > 0) {
-                       //replace the root
-                       replaceRoot(heap, input);
-                   } else {
-                       //else set root to null then cut heap
-                       heap[0] = null;
-                       useableArray = cutHeap(heap, useableArray);
-                   }
-               }
+                    //Heapify the heap
+                    heapify(heap, useableArray, 0);
+                    //Check if the root is greater or equal to the previous output
+                    if (heap[0].compareTo(lastOutput) >= 0){
+                        //If it is, output the root to the end of the run
+                        outputRoot(heap, output);
+                        lastOutput = heap[0];
+                        //if there is still another character in the input file
+                        if (input.available() > 0) {
+                            //replace the root
+                            replaceRoot(heap, input);
+                        } else {
+                            //else set root to null then cut heap
+                            heap[0] = null;
+                            useableArray = cutHeap(heap, useableArray);
+                        }
+                    }
                //if the root is smaller than the last output
                else {
                    //cut the heap and reheap the remaining heap
@@ -89,7 +89,7 @@ public class MakeRuns {
             }
             //When the useable heap size is 0, reset and reheap
             runs += 1;
-            lastOutput = "0";
+            lastOutput = " ";
             useableArray = arrayMax;
             if(heap[0] != null)
             initialHeapify(heap,useableArray);
